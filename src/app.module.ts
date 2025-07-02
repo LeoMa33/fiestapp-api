@@ -10,6 +10,7 @@ import { ShoppingModule } from './modules/shopping/shopping.module';
 import { ExpenseModule } from './modules/expense/expense.module';
 import { PollModule } from './modules/poll/poll.module';
 import { MinioModule } from './shared/services/minio.module';
+import { DeviceAuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { MinioModule } from './shared/services/minio.module';
     ExpenseModule,
     PollModule,
     MinioModule,
+    DeviceAuthModule,
   ],
 })
 export class AppModule {}

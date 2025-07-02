@@ -16,7 +16,6 @@ export class UserService extends BaseService<User, CreateUserDto> {
 
   protected mapCreateDtoToEntity(dto: CreateUserDto) {
     return {
-      guid: dto.guid,
       username: dto.username,
       gender: dto.gender,
       age: dto.age,
@@ -28,7 +27,6 @@ export class UserService extends BaseService<User, CreateUserDto> {
 
   protected mapUpdateDtoToEntity(dto: CreateUserDto) {
     return {
-      guid: dto.guid,
       username: dto.username,
       gender: dto.gender,
       age: dto.age,

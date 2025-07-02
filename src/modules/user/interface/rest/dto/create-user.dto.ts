@@ -4,13 +4,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
 export class CreateUserDto {
-  @ApiProperty({
-    example: 'abc123',
-    description: 'GUID unique fourni côté client',
-  })
-  @IsString()
-  guid: string;
-
   @ApiProperty({ example: 'JohnDoe', description: "Nom d'utilisateur" })
   @IsString()
   username: string;

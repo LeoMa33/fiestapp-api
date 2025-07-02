@@ -1,6 +1,13 @@
-import { Column, Entity, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Event } from '../../event/domain/event.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { Device } from '../../auth/domain/device.entity';
 
 export enum Gender {
   MALE = 'male',
@@ -16,10 +23,10 @@ export enum AlcoholConsumption {
 @Entity('users')
 export class User {
   @ApiProperty({
-    example: 'abc123',
-    description: 'GUID unique de l’utilisateur (fourni côté client)',
+    example: 'c4a760a2-a5f4-4f03-86b6-4f17418c1c1d',
+    description: 'GUID unique de l’utilisateur (auto-généré)',
   })
-  @PrimaryColumn({ type: 'varchar' })
+  @PrimaryGeneratedColumn('uuid')
   guid: string;
 
   @ApiProperty({ example: 'JohnDoe', description: "Nom d'utilisateur" })
@@ -69,4 +76,7 @@ export class User {
   })
   @ManyToMany(() => Event, (event) => event.participants)
   eventsParticipated: Event[];
+
+  @OneToMany(() => Device, (device) => device.user, { cascade: true })
+  devices: Device[];
 }
