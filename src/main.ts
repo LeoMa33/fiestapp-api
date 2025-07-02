@@ -16,11 +16,11 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, documentFactory);
 
   app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true, // supprime les propriétés non attendues
-      forbidNonWhitelisted: true, // rejette la requête si props inattendues
+      new ValidationPipe({
+        whitelist: true, // supprime les propriétés non attendues
+        forbidNonWhitelisted: true, // rejette la requête si props inattendues
       transform: true, // transforme les payloads en classes (nécessite class-transformer)
-    }),
+      }),
   );
   console.log(`API is running on: localhost:${process.env.PORT ?? 3000}/api`);
   await app.listen(process.env.PORT ?? 3000);

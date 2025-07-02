@@ -9,7 +9,7 @@ export class BaseService<T extends object> {
   }
 
   async findOne(id: string): Promise<T> {
-    return this.repository.findOneByOrFail({ guid:id } as any);
+    return this.repository.findOneByOrFail({ id } as any);
   }
 
   async create(data: Partial<T>): Promise<T> {
