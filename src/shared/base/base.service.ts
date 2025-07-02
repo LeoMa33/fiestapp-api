@@ -1,7 +1,11 @@
-import { Repository } from 'typeorm';
+import { DeepPartial, Repository } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
-export class BaseService<T extends object> {
+export abstract class BaseService<
+  T extends { guid: string },
+  CreateDto = any,
+  UpdateDto = Partial<CreateDto>,
+> {
   constructor(protected readonly repository: Repository<T>) {}
 
   async findAll(): Promise<T[]> {
@@ -9,23 +13,26 @@ export class BaseService<T extends object> {
   }
 
   async findOne(id: string): Promise<T> {
-    return this.repository.findOneByOrFail({ id } as any);
+    return this.repository.findOneByOrFail({ guid: id } as any);
   }
 
-  async create(data: Partial<T>): Promise<T> {
-    const entity = this.repository.create(data as T);
+  async create(dto: CreateDto): Promise<T> {
+    const entity = this.repository.create(this.mapCreateDtoToEntity(dto));
     return this.repository.save(entity);
   }
 
-  async update(
-    id: string | number,
-    data: QueryDeepPartialEntity<T>,
-  ): Promise<T> {
-    await this.repository.update(id, data);
-    return this.findOne(id.toString());
+  async update(id: string, dto: CreateDto): Promise<T> {
+    await this.repository.update(id, this.mapUpdateDtoToEntity(dto));
+    return this.findOne(id);
   }
 
-  async delete(id: string | number): Promise<void> {
+  async delete(id: string): Promise<void> {
     await this.repository.delete(id);
   }
+
+  protected abstract mapCreateDtoToEntity(dto: CreateDto): DeepPartial<T>;
+
+  protected abstract mapUpdateDtoToEntity(
+    dto: CreateDto,
+  ): QueryDeepPartialEntity<T>;
 }

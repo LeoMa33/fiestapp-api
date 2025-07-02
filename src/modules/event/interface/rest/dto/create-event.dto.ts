@@ -1,23 +1,48 @@
-import { IsString, IsNumber, IsUUID, IsOptional } from 'class-validator';
+import { IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateEventDto {
-    @IsString()
-    title: string;
+  @ApiProperty({
+    description: 'Titre de l’événement',
+    example: 'Soirée de clôture',
+  })
+  @IsString()
+  title: string;
 
-    @IsString()
-    location: string;
+  @ApiProperty({
+    description: 'Lieu de l’événement',
+    example: 'Paris, France',
+  })
+  @IsString()
+  location: string;
 
-    @IsOptional()
-    @IsNumber()
-    latitude?: number;
+  @ApiPropertyOptional({
+    description: 'Latitude du lieu (optionnelle)',
+    example: 48.8566,
+  })
+  @IsOptional()
+  @IsNumber()
+  latitude?: number;
 
-    @IsOptional()
-    @IsNumber()
-    longitude?: number;
+  @ApiPropertyOptional({
+    description: 'Longitude du lieu (optionnelle)',
+    example: 2.3522,
+  })
+  @IsOptional()
+  @IsNumber()
+  longitude?: number;
 
-    @IsNumber()
-    date: number; // timestamp en secondes
+  @ApiProperty({
+    description: 'Horodatage en secondes de la date de l’événement',
+    example: 1735689600, // 1er janvier 2025
+  })
+  @IsNumber()
+  date: number;
 
-    @IsUUID()
-    organizer: string; // guid du user
+  @ApiProperty({
+    description: 'GUID de l’organisateur (User)',
+    example: 'a71f8de0-6f74-4c8b-9bcd-7fa4a4d890fe',
+  })
+  @IsUUID()
+  organizer: string;
 }

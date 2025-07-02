@@ -1,15 +1,34 @@
-import { IsString, IsInt, IsUUID } from 'class-validator';
+import { IsInt, IsString, IsUUID, Min } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateShoppingDto {
-    @IsString()
-    image: string;
+  @ApiProperty({
+    example: 'imageName',
+    description: 'nom de l’image du produit',
+  })
+  @IsString()
+  image: string;
 
-    @IsInt()
-    quantity: number;
+  @ApiProperty({
+    example: 3,
+    description: 'Quantité du produit',
+    minimum: 1,
+  })
+  @IsInt()
+  @Min(1)
+  quantity: number;
 
-    @IsString()
-    name: string;
+  @ApiProperty({
+    example: 'Pack de bouteilles d’eau',
+    description: 'Nom du produit',
+  })
+  @IsString()
+  name: string;
 
-    @IsUUID()
-    event: string; // guid de l'événement associé
+  @ApiProperty({
+    example: 'e0bfa82d-2e91-4be0-a6a7-9876f83d2451',
+    description: 'GUID de l’événement associé',
+  })
+  @IsUUID()
+  event: string;
 }

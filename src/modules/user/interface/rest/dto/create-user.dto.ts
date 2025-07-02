@@ -1,29 +1,42 @@
-import {IsEnum, IsInt, IsString, Min} from "class-validator";
-import {AlcoholConsumption, Gender} from "../../../domain/user.entity";
-
+import { IsEnum, IsInt, IsString, Min } from 'class-validator';
+import { AlcoholConsumption, Gender } from '../../../domain/user.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserDto {
-    @IsString()
-    guid: string;
+  @ApiProperty({
+    example: 'abc123',
+    description: 'GUID unique fourni côté client',
+  })
+  @IsString()
+  guid: string;
 
-    @IsString()
-    username: string;
+  @ApiProperty({ example: 'JohnDoe', description: "Nom d'utilisateur" })
+  @IsString()
+  username: string;
 
-    @IsEnum(Gender)
-    gender: Gender;
+  @ApiProperty({ enum: Gender, description: 'Genre de l’utilisateur' })
+  @IsEnum(Gender)
+  gender: Gender;
 
-    @IsInt()
-    @Min(0)
-    age: number;
+  @ApiProperty({ example: 30, description: "Âge de l'utilisateur" })
+  @IsInt()
+  @Min(0)
+  age: number;
 
-    @IsInt()
-    @Min(0)
-    height: number;
+  @ApiProperty({ example: 175, description: 'Taille en cm' })
+  @IsInt()
+  @Min(0)
+  height: number;
 
-    @IsInt()
-    @Min(0)
-    weight: number;
+  @ApiProperty({ example: 70, description: 'Poids en kg' })
+  @IsInt()
+  @Min(0)
+  weight: number;
 
-    @IsEnum(AlcoholConsumption)
-    alcoholConsumption: AlcoholConsumption;
+  @ApiProperty({
+    enum: AlcoholConsumption,
+    description: 'Fréquence de consommation d’alcool',
+  })
+  @IsEnum(AlcoholConsumption)
+  alcoholConsumption: AlcoholConsumption;
 }
