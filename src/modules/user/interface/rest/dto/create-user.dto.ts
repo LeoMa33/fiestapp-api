@@ -1,6 +1,7 @@
-import { IsEnum, IsInt, IsString, Min } from 'class-validator';
+import { IsEnum, IsInt, IsOptional, IsString, Min } from 'class-validator';
 import { AlcoholConsumption, Gender } from '../../../domain/user.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 
 export class CreateUserDto {
   @ApiProperty({
@@ -39,4 +40,13 @@ export class CreateUserDto {
   })
   @IsEnum(AlcoholConsumption)
   alcoholConsumption: AlcoholConsumption;
+
+  @ApiProperty({
+    type: 'string',
+    format: 'binary',
+    required: false,
+  })
+  @IsOptional()
+  @Type(() => Object)
+  file?: any;
 }

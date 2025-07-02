@@ -1,5 +1,6 @@
 import { IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 
 export class CreateEventDto {
   @ApiProperty({
@@ -45,4 +46,13 @@ export class CreateEventDto {
   })
   @IsUUID()
   organizer: string;
+
+  @ApiProperty({
+    type: 'string',
+    format: 'binary',
+    required: false,
+  })
+  @IsOptional()
+  @Type(() => Object)
+  file?: any;
 }

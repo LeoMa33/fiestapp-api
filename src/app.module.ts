@@ -9,6 +9,7 @@ import { HostingModule } from './modules/hosting/hosting.module';
 import { ShoppingModule } from './modules/shopping/shopping.module';
 import { ExpenseModule } from './modules/expense/expense.module';
 import { PollModule } from './modules/poll/poll.module';
+import { MinioModule } from './shared/services/minio.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { PollModule } from './modules/poll/poll.module';
     ShoppingModule,
     ExpenseModule,
     PollModule,
+    MinioModule,
   ],
 })
 export class AppModule {}

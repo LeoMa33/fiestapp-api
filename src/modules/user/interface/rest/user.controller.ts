@@ -6,19 +6,32 @@ import {
   Param,
   Post,
   Put,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiConsumes,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { User } from '../../domain/user.entity';
 import { UserService } from '../../application/user.service';
 import { BaseController } from '../../../../shared/base/base.controller';
 import { CreateUserDto } from './dto/create-user.dto';
+import { MinioService } from '../../../../shared/services/minio.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('users')
 @Controller('users')
 export class UserController extends BaseController<User, CreateUserDto> {
   protected service: UserService;
 
-  constructor(private readonly userService: UserService) {
+  constructor(
+    private readonly userService: UserService,
+    private readonly minioService: MinioService,
+  ) {
     super();
     this.service = userService;
   }
@@ -45,28 +58,56 @@ export class UserController extends BaseController<User, CreateUserDto> {
 
   @Post()
   @ApiOperation({ summary: 'Créer un nouvel utilisateur' })
+  @ApiConsumes('multipart/form-data')
   @ApiResponse({ status: 201, description: 'Utilisateur créé', type: User })
-  override create(@Body() dto: CreateUserDto): Promise<User> {
-    return super.create(dto);
+  @UseInterceptors(FileInterceptor('file'))
+  async create(
+    @Body() dto: CreateUserDto,
+    @UploadedFile() file?: Express.Multer.File,
+  ): Promise<User> {
+    const user = await this.service.create(dto);
+
+    if (file) {
+      await this.minioService.uploadUserAvatar(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
+        file.buffer,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
+        file.originalname,
+        user.guid,
+      );
+    }
+
+    return user;
   }
 
   @Put(':id')
-  @ApiOperation({ summary: 'Mettre à jour un utilisateur' })
-  @ApiParam({
-    name: 'id',
-    description: 'GUID de l’utilisateur à mettre à jour',
-  })
+  @ApiOperation({ summary: 'Mettre à jour un utilisateur avec image' })
+  @ApiParam({ name: 'id', description: 'GUID de l’utilisateur' })
+  @ApiConsumes('multipart/form-data')
   @ApiResponse({
     status: 200,
     description: 'Utilisateur mis à jour',
     type: User,
   })
-  @ApiResponse({ status: 404, description: 'Utilisateur non trouvé' })
-  override update(
+  @UseInterceptors(FileInterceptor('file'))
+  async update(
     @Param('id') id: string,
     @Body() dto: CreateUserDto,
+    @UploadedFile() file?: Express.Multer.File,
   ): Promise<User> {
-    return super.update(id, dto);
+    const user = await this.service.update(id, dto);
+
+    if (file) {
+      await this.minioService.uploadUserAvatar(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
+        file.buffer,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
+        file.originalname,
+        user.guid,
+      );
+    }
+
+    return user;
   }
 
   @Delete(':id')
