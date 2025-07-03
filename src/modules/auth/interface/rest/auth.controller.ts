@@ -20,6 +20,7 @@ import { User } from '../../../user/domain/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterDeviceDto } from './dto/register-device.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { RegisterResponseDto } from './dto/register-response.dto';
 
 @ApiTags('Device Auth')
 @Controller('auth/device')
@@ -65,11 +66,15 @@ export class AuthController {
     summary: 'Register a user and link to deviceId (with avatar)',
   })
   @UsePipes(new ValidationPipe({ transform: true }))
-  @ApiResponse({ status: 201, description: 'User created', type: User })
+  @ApiResponse({
+    status: 201,
+    description: 'User created',
+    type: RegisterResponseDto,
+  })
   async register(
     @Body() body: RegisterDeviceDto,
     @UploadedFile() file?: Express.Multer.File,
-  ): Promise<{ accessToken: string; user: User }> {
+  ): Promise<RegisterResponseDto> {
     console.table(body);
 
     const user = await this.authService.register(
