@@ -35,7 +35,7 @@ abstract class User implements Built<User, UserBuilder> {
   /// Genre de l’utilisateur
   @BuiltValueField(wireName: r'gender')
   UserGenderEnum get gender;
-  // enum genderEnum {  Male,  Female,  };
+  // enum genderEnum {  male,  female,  };
 
   /// Âge de l’utilisateur
   @BuiltValueField(wireName: r'age')
@@ -52,7 +52,7 @@ abstract class User implements Built<User, UserBuilder> {
   /// Fréquence de consommation d’alcool
   @BuiltValueField(wireName: r'alcoholConsumption')
   UserAlcoholConsumptionEnum get alcoholConsumption;
-  // enum alcoholConsumptionEnum {  Occasional,  Regular,  Veteran,  };
+  // enum alcoholConsumptionEnum {  occasional,  regular,  veteran,  };
 
   /// Événements organisés
   @BuiltValueField(wireName: r'events')
@@ -248,10 +248,10 @@ class _$UserSerializer implements PrimitiveSerializer<User> {
 class UserGenderEnum extends EnumClass {
 
   /// Genre de l’utilisateur
-  @BuiltValueEnumConst(wireName: r'Male')
+  @BuiltValueEnumConst(wireName: r'male')
   static const UserGenderEnum male = _$userGenderEnum_male;
   /// Genre de l’utilisateur
-  @BuiltValueEnumConst(wireName: r'Female')
+  @BuiltValueEnumConst(wireName: r'female')
   static const UserGenderEnum female = _$userGenderEnum_female;
   /// Genre de l’utilisateur
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
@@ -268,13 +268,13 @@ class UserGenderEnum extends EnumClass {
 class UserAlcoholConsumptionEnum extends EnumClass {
 
   /// Fréquence de consommation d’alcool
-  @BuiltValueEnumConst(wireName: r'Occasional')
+  @BuiltValueEnumConst(wireName: r'occasional')
   static const UserAlcoholConsumptionEnum occasional = _$userAlcoholConsumptionEnum_occasional;
   /// Fréquence de consommation d’alcool
-  @BuiltValueEnumConst(wireName: r'Regular')
+  @BuiltValueEnumConst(wireName: r'regular')
   static const UserAlcoholConsumptionEnum regular = _$userAlcoholConsumptionEnum_regular;
   /// Fréquence de consommation d’alcool
-  @BuiltValueEnumConst(wireName: r'Veteran')
+  @BuiltValueEnumConst(wireName: r'veteran')
   static const UserAlcoholConsumptionEnum veteran = _$userAlcoholConsumptionEnum_veteran;
   /// Fréquence de consommation d’alcool
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)

@@ -55,7 +55,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **authControllerRegister**
-> User authControllerRegister(deviceId, user, file)
+> User authControllerRegister(deviceId, username, gender, age, height, weight, alcoholConsumption, file)
 
 Register a user and link to deviceId (with avatar)
 
@@ -65,11 +65,16 @@ import 'package:openapi/api.dart';
 
 final api = Openapi().getDeviceAuthApi();
 final String deviceId = deviceId_example; // String | 
-final CreateUserDto user = ; // CreateUserDto | 
+final String username = username_example; // String | Nom d'utilisateur
+final String gender = gender_example; // String | Genre de l’utilisateur
+final num age = 8.14; // num | Âge de l'utilisateur
+final num height = 8.14; // num | Taille en cm
+final num weight = 8.14; // num | Poids en kg
+final String alcoholConsumption = alcoholConsumption_example; // String | Fréquence de consommation d’alcool
 final MultipartFile file = BINARY_DATA_HERE; // MultipartFile | 
 
 try {
-    final response = api.authControllerRegister(deviceId, user, file);
+    final response = api.authControllerRegister(deviceId, username, gender, age, height, weight, alcoholConsumption, file);
     print(response);
 } catch on DioException (e) {
     print('Exception when calling DeviceAuthApi->authControllerRegister: $e\n');
@@ -81,7 +86,12 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **deviceId** | **String**|  | 
- **user** | [**CreateUserDto**](CreateUserDto.md)|  | 
+ **username** | **String**| Nom d'utilisateur | 
+ **gender** | **String**| Genre de l’utilisateur | 
+ **age** | **num**| Âge de l'utilisateur | 
+ **height** | **num**| Taille en cm | 
+ **weight** | **num**| Poids en kg | 
+ **alcoholConsumption** | **String**| Fréquence de consommation d’alcool | 
  **file** | **MultipartFile**|  | [optional] 
 
 ### Return type

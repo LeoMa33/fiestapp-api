@@ -4,6 +4,8 @@ import {
   Post,
   UploadedFile,
   UseInterceptors,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import {
   ApiBody,
@@ -62,6 +64,7 @@ export class AuthController {
   @ApiOperation({
     summary: 'Register a user and link to deviceId (with avatar)',
   })
+  @UsePipes(new ValidationPipe({ transform: true }))
   @ApiResponse({ status: 201, description: 'User created', type: User })
   async register(
     @Body() body: RegisterDeviceDto,
@@ -71,7 +74,14 @@ export class AuthController {
 
     const user = await this.authService.register(
       body.deviceId,
-      body.user,
+      {
+        age: body.age,
+        username: body.username,
+        gender: body.gender,
+        height: body.height,
+        weight: body.weight,
+        alcoholConsumption: body.alcoholConsumption,
+      },
       file,
     );
     const token = await this.jwtService.signAsync({ sub: user.guid });

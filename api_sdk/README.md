@@ -117,7 +117,6 @@ Class | Method | HTTP request | Description
  - [CreatePollVoteDto](doc/CreatePollVoteDto.md)
  - [CreateRequestDto](doc/CreateRequestDto.md)
  - [CreateShoppingDto](doc/CreateShoppingDto.md)
- - [CreateUserDto](doc/CreateUserDto.md)
  - [Event](doc/Event.md)
  - [Expense](doc/Expense.md)
  - [Hosting](doc/Hosting.md)

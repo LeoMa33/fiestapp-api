@@ -30,7 +30,6 @@ export 'package:openapi/src/model/create_poll_dto.dart';
 export 'package:openapi/src/model/create_poll_vote_dto.dart';
 export 'package:openapi/src/model/create_request_dto.dart';
 export 'package:openapi/src/model/create_shopping_dto.dart';
-export 'package:openapi/src/model/create_user_dto.dart';
 export 'package:openapi/src/model/event.dart';
 export 'package:openapi/src/model/expense.dart';
 export 'package:openapi/src/model/hosting.dart';

@@ -10,7 +10,6 @@ import 'package:dio/dio.dart';
 
 import 'package:built_value/json_object.dart';
 import 'package:openapi/src/api_util.dart';
-import 'package:openapi/src/model/create_user_dto.dart';
 import 'package:openapi/src/model/login_device_dto.dart';
 import 'package:openapi/src/model/user.dart';
 
@@ -122,7 +121,12 @@ class DeviceAuthApi {
   ///
   /// Parameters:
   /// * [deviceId] 
-  /// * [user] 
+  /// * [username] - Nom d'utilisateur
+  /// * [gender] - Genre de l’utilisateur
+  /// * [age] - Âge de l'utilisateur
+  /// * [height] - Taille en cm
+  /// * [weight] - Poids en kg
+  /// * [alcoholConsumption] - Fréquence de consommation d’alcool
   /// * [file] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
@@ -135,7 +139,12 @@ class DeviceAuthApi {
   /// Throws [DioException] if API call or serialization fails
   Future<Response<User>> authControllerRegister({ 
     required String deviceId,
-    required CreateUserDto user,
+    required String username,
+    required String gender,
+    required num age,
+    required num height,
+    required num weight,
+    required String alcoholConsumption,
     MultipartFile? file,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -163,7 +172,12 @@ class DeviceAuthApi {
     try {
       _bodyData = FormData.fromMap(<String, dynamic>{
         r'deviceId': encodeFormParameter(_serializers, deviceId, const FullType(String)),
-        r'user': encodeFormParameter(_serializers, user, const FullType(CreateUserDto)),
+        r'username': encodeFormParameter(_serializers, username, const FullType(String)),
+        r'gender': encodeFormParameter(_serializers, gender, const FullType(String)),
+        r'age': encodeFormParameter(_serializers, age, const FullType(num)),
+        r'height': encodeFormParameter(_serializers, height, const FullType(num)),
+        r'weight': encodeFormParameter(_serializers, weight, const FullType(num)),
+        r'alcoholConsumption': encodeFormParameter(_serializers, alcoholConsumption, const FullType(String)),
         if (file != null) r'file': file,
       });
 

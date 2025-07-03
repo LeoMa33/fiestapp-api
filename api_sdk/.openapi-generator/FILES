@@ -12,7 +12,6 @@ doc/CreatePollDto.md
 doc/CreatePollVoteDto.md
 doc/CreateRequestDto.md
 doc/CreateShoppingDto.md
-doc/CreateUserDto.md
 doc/DeviceAuthApi.md
 doc/Event.md
 doc/EventsApi.md
@@ -59,7 +58,6 @@ lib/src/model/create_poll_dto.dart
 lib/src/model/create_poll_vote_dto.dart
 lib/src/model/create_request_dto.dart
 lib/src/model/create_shopping_dto.dart
-lib/src/model/create_user_dto.dart
 lib/src/model/date.dart
 lib/src/model/event.dart
 lib/src/model/expense.dart

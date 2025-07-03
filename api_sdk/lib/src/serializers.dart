@@ -24,7 +24,6 @@ import 'package:openapi/src/model/create_poll_dto.dart';
 import 'package:openapi/src/model/create_poll_vote_dto.dart';
 import 'package:openapi/src/model/create_request_dto.dart';
 import 'package:openapi/src/model/create_shopping_dto.dart';
-import 'package:openapi/src/model/create_user_dto.dart';
 import 'package:openapi/src/model/event.dart';
 import 'package:openapi/src/model/expense.dart';
 import 'package:openapi/src/model/hosting.dart';
@@ -49,7 +48,6 @@ part 'serializers.g.dart';
   CreatePollVoteDto,
   CreateRequestDto,
   CreateShoppingDto,
-  CreateUserDto,
   Event,
   Expense,
   Hosting,

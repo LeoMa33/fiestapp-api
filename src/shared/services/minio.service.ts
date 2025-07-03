@@ -6,7 +6,7 @@ import { lookup } from 'mime-types';
 export class MinioService {
   private s3 = new S3Client({
     region: 'us-east-1',
-    endpoint: 'https://fiestapp-s3-console.mizury.fr', // MinIO endpoint
+    endpoint: 'https://fiestapp-s3.mizury.fr', // MinIO endpoint
     forcePathStyle: true,
     credentials: {
       accessKeyId: process.env.MINIO_ACCESS_KEY ?? '',
@@ -38,6 +38,9 @@ export class MinioService {
   ): Promise<string> {
     const key = `user/${userGuid}.webp`; // always overwrite same key
 
+    console.log(process.env.MINIO_ACCESS_KEY ?? '');
+    console.log(process.env.MINIO_SECRET_KEY ?? '');
+
     await this.s3.send(
       new PutObjectCommand({
         Bucket: this.bucketName,
@@ -51,7 +54,6 @@ export class MinioService {
   }
 
   private getMimeType(extension: string): string {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
     return lookup(extension) || 'application/octet-stream';
   }
 }
