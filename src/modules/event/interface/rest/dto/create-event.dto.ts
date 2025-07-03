@@ -1,17 +1,17 @@
 import { IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { Transform } from 'class-transformer';
 
 export class CreateEventDto {
   @ApiProperty({
-    description: 'Titre de l’événement',
+    description: 'Titre de lévénement',
     example: 'Soirée de clôture',
   })
   @IsString()
   title: string;
 
   @ApiProperty({
-    description: 'Lieu de l’événement',
+    description: 'Lieu de lévénement',
     example: 'Paris, France',
   })
   @IsString()
@@ -22,6 +22,7 @@ export class CreateEventDto {
     example: 48.8566,
   })
   @IsOptional()
+  @Transform(({ value }) => (value ? parseFloat(value) : undefined))
   @IsNumber()
   latitude?: number;
 
@@ -30,29 +31,31 @@ export class CreateEventDto {
     example: 2.3522,
   })
   @IsOptional()
+  @Transform(({ value }) => (value ? parseFloat(value) : undefined))
   @IsNumber()
   longitude?: number;
 
   @ApiProperty({
-    description: 'Horodatage en secondes de la date de l’événement',
+    description: 'Horodatage en secondes de la date de lévénement',
     example: 1735689600, // 1er janvier 2025
   })
+  @Transform(({ value }) => parseInt(value))
   @IsNumber()
   date: number;
 
   @ApiProperty({
-    description: 'GUID de l’organisateur (User)',
+    description: 'GUID de lorganisateur (User)',
     example: 'a71f8de0-6f74-4c8b-9bcd-7fa4a4d890fe',
   })
   @IsUUID()
   organizer: string;
 
-  @ApiProperty({
-    type: 'string',
-    format: 'binary',
-    required: false,
-  })
-  @IsOptional()
-  @Type(() => Object)
-  file?: any;
+  // @ApiProperty({
+  //   type: 'string',
+  //   format: 'binary',
+  //   required: false,
+  // })
+  // @IsOptional()
+  // @Type(() => Object)
+  // file?: any;
 }

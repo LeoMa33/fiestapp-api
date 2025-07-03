@@ -4,15 +4,17 @@ FROM node:20-alpine
 # Dossier de travail dans le conteneur
 WORKDIR /app
 
-# Copie du package.json et install des deps
+# Copie package.json et lock
 COPY package*.json ./
+
+# Installation des dépendances
 RUN npm install
 
-# Copie du code
-COPY src .
+# :white_check_mark: Copie tout le reste (src, tsconfig.json, etc.)
+COPY . .
 
-# Expose le port de l'app NestJS
+# Expose le port NestJS
 EXPOSE 3000
 
-# Commande de démarrage (écrasée par `docker-compose`)
+# Commande par défaut
 CMD ["npm", "run", "start"]

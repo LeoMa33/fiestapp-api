@@ -8,6 +8,8 @@ import {
   Put,
   UploadedFile,
   UseInterceptors,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import {
   ApiBody,
@@ -59,24 +61,12 @@ export class EventController extends BaseController<Event, CreateEventDto> {
 
   @Post()
   @ApiOperation({ summary: 'Créer un nouvel événement' })
-  @ApiConsumes('multipart/form-data')
-  @ApiBody({ type: CreateEventDto })
+  @UsePipes(new ValidationPipe({ transform: true }))
   @ApiResponse({ status: 201, description: 'Événement créé', type: Event })
-  @UseInterceptors(FileInterceptor('file'))
-  async create(
-    @Body() dto: CreateEventDto,
-    @UploadedFile() file?: Express.Multer.File,
-  ): Promise<Event> {
+  // 👉 plus d'intercepteur de fichier ici
+  async create(@Body() dto: CreateEventDto): Promise<Event> {
     const event = await this.service.create(dto);
-    if (file) {
-      await this.minioService.uploadEventImage(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
-        file.buffer,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
-        file.originalname,
-        event.guid,
-      );
-    }
+    // 👉 plus d'upload de fichier ici
     return event;
   }
 
@@ -100,9 +90,7 @@ export class EventController extends BaseController<Event, CreateEventDto> {
     const event = await this.service.update(id, dto);
     if (file) {
       await this.minioService.uploadEventImage(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
         file.buffer,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
         file.originalname,
         event.guid,
       );
