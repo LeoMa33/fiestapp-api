@@ -1,9 +1,23 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
+import {
+  ApiBody,
+  ApiConsumes,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { AuthService } from '../../application/auth.service';
 import { LoginDeviceDto } from './dto/login-device.dto';
 import { User } from '../../../user/domain/user.entity';
 import { JwtService } from '@nestjs/jwt';
+import { RegisterDeviceDto } from './dto/register-device.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Device Auth')
 @Controller('auth/device')
@@ -32,8 +46,34 @@ export class AuthController {
   async login(
     @Body() body: LoginDeviceDto,
   ): Promise<{ accessToken: string; user: User }> {
-    const user: User = await this.authService.loginOrRegister(body.deviceId);
+    const user: User = await this.authService.login(body.deviceId);
 
+    const token = await this.jwtService.signAsync({ sub: user.guid });
+
+    return {
+      accessToken: token,
+      user,
+    };
+  }
+
+  @Post('register')
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiOperation({
+    summary: 'Register a user and link to deviceId (with avatar)',
+  })
+  @ApiResponse({ status: 201, description: 'User created', type: User })
+  async register(
+    @Body() body: RegisterDeviceDto,
+    @UploadedFile() file?: Express.Multer.File,
+  ): Promise<{ accessToken: string; user: User }> {
+    console.table(body);
+
+    const user = await this.authService.register(
+      body.deviceId,
+      body.user,
+      file,
+    );
     const token = await this.jwtService.signAsync({ sub: user.guid });
 
     return {

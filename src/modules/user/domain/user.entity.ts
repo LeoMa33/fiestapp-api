@@ -15,9 +15,9 @@ export enum Gender {
 }
 
 export enum AlcoholConsumption {
-  OCCASIONAL = 'Occasional',
-  REGULAR = 'Regular',
-  VETERAN = 'Veteran',
+  OCCASIONAL = 'occasional',
+  REGULAR = 'regular',
+  VETERAN = 'veteran',
 }
 
 @Entity('users')

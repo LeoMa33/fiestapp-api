@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseUUIDPipe,
   Post,
   Put,
   UploadedFile,
@@ -52,7 +53,9 @@ export class UserController extends BaseController<User, CreateUserDto> {
   @ApiParam({ name: 'id', description: 'GUID de l’utilisateur' })
   @ApiResponse({ status: 200, description: 'Utilisateur trouvé', type: User })
   @ApiResponse({ status: 404, description: 'Utilisateur non trouvé' })
-  override findOne(@Param('id') id: string): Promise<User> {
+  override findOne(
+    @Param('id', new ParseUUIDPipe()) id: string,
+  ): Promise<User> {
     return super.findOne(id);
   }
 
@@ -69,9 +72,8 @@ export class UserController extends BaseController<User, CreateUserDto> {
 
     if (file) {
       await this.minioService.uploadUserAvatar(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
         file.buffer,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
+
         file.originalname,
         user.guid,
       );
@@ -99,9 +101,8 @@ export class UserController extends BaseController<User, CreateUserDto> {
 
     if (file) {
       await this.minioService.uploadUserAvatar(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
         file.buffer,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
+
         file.originalname,
         user.guid,
       );
